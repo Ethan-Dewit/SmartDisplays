@@ -6,7 +6,7 @@ import json
  
 class smartDisplays():
 
-         # userId Meanings:
+        # userId Meanings:
          # w = white
          # b = black
          # t = triangle
@@ -21,28 +21,34 @@ class smartDisplays():
                             'DIRECT':  ['right', 'up', 'left', 'down'],
                             'DISP':    ['1', '2', '2', '1']})
 
-
+        
         # TEST FOR READING USER INFROMATION TO DF
         # (should get this information from JSON)
-        
-        # Parse user infromation from JSON
-        curUser = 'w.c_b.c_w.t'
-        curDirect = 'right'
-        curDisplay = '1'
 
+        # Parse user infromation from JSON
+        curUser = 'w.c_w.c_w.t'
+        curDirect = 'left'
+        curDisplay = '2'
+
+        # Create a new row with userInfo
         newCol = pd.DataFrame({ 'UID':    [curUser],
                                 'DIRECT':  [curDirect],
                                 'DISP':    [curDisplay]})
 
-        # If the user already exists in the df
-        if df.loc[df['UID'] == curUser] == None:
-            # add a new column with their information to df
+
+
+        # userExists will be true if user exists in df and false otherwise
+        userExists = df.isin([curUser]).any().any()
+
+        # If the user is already in df
+        if userExists:
+            # replace that userId's row with newCol (contains updated information)
+            df.loc[df['UID'] == curUser] = newCol
+        else:
+            # add column with their information
             df = df.append(newCol)
-        #else:
-            # update the curUser's column information
-
+                
         # TESTING: print(df)
-
 
     # Get an avaliable userID for a new user
     def get_available_id(self, userId):
@@ -61,7 +67,7 @@ class smartDisplays():
 
     # send updated user information 
     def send_direction(self, userId):
-    
-
+                
+           
     if __name__ == "__main__":
         main()
