@@ -2,36 +2,66 @@ import numpy as np
 import pandas as pd
 from sklearn import cluster
 import matplotlib.pyplot as plt
-
-
+import json
+ 
 class smartDisplays():
 
-    def __init__(self):
-    # Recieving this in a json file
-    # hosting a pandas df on a task application
+         # userId Meanings:
+         # w = white
+         # b = black
+         # t = triangle
+         # c = circle
+         # r = rectangle
 
-    # put userIds in a queue
-    # start with 10 constant userIds in df for testing
-    # iterate through shapes in a for loop to generate userIds
-    # df should include userID, direction, display, and time
+    def main():
+
+        # DataFrame for testing
+        # df should include userID, direction, display, and time
+        df = pd.DataFrame({'UID':    ['w.c_w.c_w.c', 'b.c_b.c_b.c', 'w.t_w.t_w.t', 'b.t_b.t_b.t'],
+                            'DIRECT':  ['right', 'up', 'left', 'down'],
+                            'DISP':    ['1', '2', '2', '1']})
 
 
-    # Get userID from app and store in a dataframe
-    def get_available_id(self, userId):
-        # change userID symbols at some point
+        # TEST FOR READING USER INFROMATION TO DF
+        # (should get this information from JSON)
         
+        # Parse user infromation from JSON
+        curUser = 'w.c_b.c_w.t'
+        curDirect = 'right'
+        curDisplay = '1'
 
+        newCol = pd.DataFrame({ 'UID':    [curUser],
+                                'DIRECT':  [curDirect],
+                                'DISP':    [curDisplay]})
+
+        # If the user already exists in the df
+        if df.loc[df['UID'] == curUser] == None:
+            # add a new column with their information to df
+            df = df.append(newCol)
+        #else:
+            # update the curUser's column information
+
+        # TESTING: print(df)
+
+
+    # Get an avaliable userID for a new user
+    def get_available_id(self, userId):
+        # put userIds in a queue
+        # start with 10 constant userIds in df for testing
+        # iterate through shapes in a for loop to generate userIds
+       
+       
     # Clear out any ideas that don't need more directions
-    # Set a time limit from the last time each idea was used
     def clear_old_id(self, userId):
 
 
-    # app sends info to our python app
-    # send the direction to go in to display
+    # get json information from the app
     def receive_direction_info(self, userId, direction):
 
 
-    # the tablet we call
-    # tablet going to
+    # send updated user information 
     def send_direction(self, userId):
-        # return direction
+    
+
+    if __name__ == "__main__":
+        main()
