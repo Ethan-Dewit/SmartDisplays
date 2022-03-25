@@ -32,13 +32,13 @@ void setup() {
   display.clearDisplay();
   setDisplayOutline();
 
-  if(s1 = 0){
+  if(s1 == 0){
     drawUserCircle(1,1,c1);
   }
-  else if(s1 = 1){
+  else if(s1 == 1){
     drawUserTriangle(1,1,c1);
   }
-  else if(s1 = 2){
+  else if(s1 == 2){
     drawUserSquare(1,1,c1);
   }
   else{
@@ -46,13 +46,13 @@ void setup() {
   }
 
 
-  if(s2 = 0){
+  if(s2 == 0){
     drawUserCircle(2,1,c2);
   }
-  else if(s2 = 1){
+  else if(s2 == 1){
     drawUserTriangle(2,1,c2);
   }
-  else if(s2 = 2){
+  else if(s2 == 2){
     drawUserSquare(2,1,c2);
   }
   else{
@@ -60,13 +60,13 @@ void setup() {
   }
 
 
-  if(s3 = 0){
+  if(s3 == 0){
     drawUserCircle(3,1,c3);
   }
-  else if(s3 = 1){
+  else if(s3 == 1){
     drawUserTriangle(3,1,c3);
   }
-  else if(s3 = 2){
+  else if(s3 == 2){
     drawUserSquare(3,1,c3);
   }
   else{
