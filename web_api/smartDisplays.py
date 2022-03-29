@@ -4,8 +4,8 @@ import pandas as pd
 
 id_queue = []
 #df = pd.DataFrame({'UID':  pd.Series(dtype='str'),
-#                     'DIRECT': pd.Series(dtype='str'),
-#                  'DISP':  pd.Series(dtype='int')})
+#                   'DIRECT': pd.Series(dtype='str'),
+#                   'DISP':  pd.Series(dtype='str')})
 
 df = pd.DataFrame({'UID':    ['w.c_w.c_w.c', 'b.c_b.c_b.c', 'w.t_w.t_w.t', 'b.t_b.t_b.t'],
                     'DIRECT':  ['right', 'up', 'left', 'down'],
@@ -30,13 +30,12 @@ def print_all():
 
 @app.route('/get_direction', methods=["GET"])
 def get_direction():
-    display = '1'
+    display = request.args['DISPLAY']
     display_df = df.loc[df['DISP'] == display]
     display_df.drop('DISP', axis=1, inplace=True)
     return display_df.to_json(orient = 'records')
 
 @app.route('/update_direction', methods=["POST"])
-
 def get_string(x):
     if x == 0:
         return 'C.B'
@@ -72,8 +71,6 @@ if __name__ == '__main__':
     app.run(debug=True, port=5000)
 
 """
-    recieve display_id to use in get_direction
-
     receive and interpret JSON in update_direction
     recieve UID and remove column in clear_old_id
 """
