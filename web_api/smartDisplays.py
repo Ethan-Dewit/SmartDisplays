@@ -1,73 +1,79 @@
-import numpy as np
-import pandas as pd
-from sklearn import cluster
-import matplotlib.pyplot as plt
+from flask import Flask, request, render_template
 import json
- 
-class smartDisplays():
+import pandas as pd
 
-        # userId Meanings:
-         # w = white
-         # b = black
-         # t = triangle
-         # c = circle
-         # r = rectangle
+id_queue = []
+#df = pd.DataFrame({'UID':  pd.Series(dtype='str'),
+#                     'DIRECT': pd.Series(dtype='str'),
+#                  'DISP':  pd.Series(dtype='int')})
 
-    def main():
+df = pd.DataFrame({'UID':    ['w.c_w.c_w.c', 'b.c_b.c_b.c', 'w.t_w.t_w.t', 'b.t_b.t_b.t'],
+                    'DIRECT':  ['right', 'up', 'left', 'down'],
+                    'DISP':    ['1', '2', '2', '1']})
 
-        # DataFrame for testing
-        # df should include userID, direction, display, and time
-        df = pd.DataFrame({'UID':    ['w.c_w.c_w.c', 'b.c_b.c_b.c', 'w.t_w.t_w.t', 'b.t_b.t_b.t'],
-                            'DIRECT':  ['right', 'up', 'left', 'down'],
-                            'DISP':    ['1', '2', '2', '1']})
+app = Flask(__name__)
 
-        
-        # TEST FOR READING USER INFROMATION TO DF
-        # (should get this information from JSON)
-
-        # Parse user infromation from JSON
-        curUser = 'w.c_w.c_w.t'
-        curDirect = 'left'
-        curDisplay = '2'
-
-        # Create a new row with userInfo
-        newCol = pd.DataFrame({ 'UID':    [curUser],
-                                'DIRECT':  [curDirect],
-                                'DISP':    [curDisplay]})
+@app.route('/get_available_id', methods=["GET"])
+def get_available_id():
+    return id_queue.pop(0)
 
 
+@app.route('/clear_old_id', methods=["POST"])
+def clear_old_id():
+    df = df[df.uid != freed_id]
+    id_queue.append(freed_id)
 
-        # userExists will be true if user exists in df and false otherwise
-        userExists = df.isin([curUser]).any().any()
-
-        # If the user is already in df
-        if userExists:
-            # replace that userId's row with newCol (contains updated information)
-            df.loc[df['UID'] == curUser] = newCol
-        else:
-            # add column with their information
-            df = df.append(newCol)
-                
-        # TESTING: print(df)
-
-    # Get an avaliable userID for a new user
-    def get_available_id(self, userId):
-        # put userIds in a queue
-        # start with 10 constant userIds in df for testing
-        # iterate through shapes in a for loop to generate userIds
-       
-       
-    # Clear out any ideas that don't need more directions
-    def clear_old_id(self, userId):
+@app.route('/')
+def print_all():
+    return render_template('df_display.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
 
 
-    # get json information from the app
-    def receive_direction_info(self, userId, direction):
+@app.route('/get_direction', methods=["GET"])
+def get_direction():
+    display = '1'
+    display_df = df.loc[df['DISP'] == display]
+    display_df.drop('DISP', axis=1, inplace=True)
+    return display_df.to_json(orient = 'records')
 
+@app.route('/update_direction', methods=["POST"])
 
-    # send updated user information 
-    def send_direction(self, userId):
-                
-           
-    if __name__ == "__main__":
-        main()
+def get_string(x):
+    if x == 0:
+        return 'C.B'
+    elif x == 1:
+        return 'C.W'
+    elif x == 2:
+        return 'T.B'
+    elif x == 3:
+        return 'T.W'
+    elif x == 4:
+        return 'R.B'
+    elif x == 5:
+        return 'R.W'
+    elif x == 6:
+        return 'D.B'
+    elif x == 7:
+        return 'D.W'
+
+def generate_ID():
+    string_range = 8
+    for i in range(string_range):
+        first = get_string(i)
+        for j in range(string_range):
+            second = get_string(j)
+            for k in range(string_range):
+                third = get_string(k)
+
+                uid = first  + '_' + second + '_' + third
+                id_queue.append(uid)
+
+if __name__ == '__main__':
+    generate_ID()
+    app.run(debug=True, port=5000)
+
+"""
+    recieve display_id to use in get_direction
+
+    receive and interpret JSON in update_direction
+    recieve UID and remove column in clear_old_id
+"""
