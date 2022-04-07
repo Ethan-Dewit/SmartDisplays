@@ -8,14 +8,14 @@ This server uses Flask in order to send and recieve data from both the app and t
 
 # Global Variables
 
-1. **id_queue = []**
+1. id_queue = []
 
 id_queue is a queue that contains avaliable userId's.
 
 
-2. **df = pd.DataFrame({'UID':  pd.Series(dtype='str'),**
-                   **'DIRECT': pd.Series(dtype='str'),**
-                   **'DISP':  pd.Series(dtype='str')})**
+2. df = pd.DataFrame({'UID':  pd.Series(dtype='str'),
+                   **'DIRECT': pd.Series(dtype='str'),
+                   **'DISP':  pd.Series(dtype='str')})
 
 df is a dataframe that holds all of our user information.
 
