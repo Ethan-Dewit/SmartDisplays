@@ -20,7 +20,9 @@ id_queue is a queue that contains avaliable userId's.
 df is a dataframe that holds all of our user information.
 
 
-# Non Route Functions
+# Functions
+
+## Non Route Functions
 
 1. def generate_ID():
 
@@ -46,10 +48,10 @@ This function is used to assist the generate_ID() function. The parameter x cont
 
 3. def add_rows():
 
+This function allows access to the global variable df. 
 
 
-
-# Route Functions
+## Route Functions
 
 1. @app.route('/get_available_id')
     def get_available_id():
