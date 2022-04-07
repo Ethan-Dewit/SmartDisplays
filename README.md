@@ -48,8 +48,7 @@ This function is used to assist the generate_ID() function. The parameter x cont
 
 3. **def add_rows():**
 
-This function allows access to the global variable df. 
-
+This function was just used for testing. 
 
 ## Route Functions
 
