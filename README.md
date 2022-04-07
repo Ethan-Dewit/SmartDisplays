@@ -14,8 +14,8 @@ id_queue is a queue that contains avaliable userId's.
 
 
 2. df = pd.DataFrame({'UID':  pd.Series(dtype='str'),
-                   **'DIRECT': pd.Series(dtype='str'),
-                   **'DISP':  pd.Series(dtype='str')})
+                   'DIRECT': pd.Series(dtype='str'),
+                   'DISP':  pd.Series(dtype='str')})
 
 df is a dataframe that holds all of our user information.
 
@@ -48,7 +48,8 @@ This function is used to assist the generate_ID() function. The parameter x cont
 
 3. **def add_rows():**
 
-This function was just used for testing. 
+This function was just used for testing.
+
 
 ## Route Functions
 
