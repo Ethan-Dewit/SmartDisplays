@@ -80,8 +80,8 @@ This function updates the direction and the display for a given userId. If the u
 
 # How to Run
 
-1. Instal flask with: pip install flask
-2. Instal panadas with: pip install pandas
+1. Install flask with: pip install flask
+2. Install panadas with: pip install pandas
 3. Enter your virtual enironment with:
     a. virtualenv env
     b. source env/bin/activate
