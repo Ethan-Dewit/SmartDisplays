@@ -20,13 +20,15 @@ id_queue is a queue that contains avaliable userId's.
 df is a dataframe that holds all of our user information.
 
 
-# Non Route Functions
+# Functions
 
-1. def generate_ID():
+## Non Route Functions
+
+1. **def generate_ID():**
 
 This function is used to generate userId's. It uses a tripple for loop. Each for loop iterates through all the possibilities of shapes that can be used as a userId. All possibilities of userId's are generated and added to id_queue. The '_' symbol is placed between each shape, making it easy to parse the information. Each for loop continues for 8 iterations each time, as there are 8 different possible shapes that can be used to make up userId's.
 
-2. def get_string(x):
+2. **def get_string(x):**
 
 This function is used to assist the generate_ID() function. The parameter x contains the number that determines which shape information should be returned. The '.' symbol between characters seperates the characters that distinguish between the shape itself and the shape's color. The character prior to '.' is the shape itself, and the character following the '.' determines if the color will be black or white.
 
@@ -44,34 +46,43 @@ This function is used to assist the generate_ID() function. The parameter x cont
     D.W     |   Diamond White
 
 
-3. def add_rows():
+3. **def add_rows():**
+
+This function was just used for testing.
 
 
-
-
-# Route Functions
+## Route Functions
 
 1. @app.route('/get_available_id')
-    def get_available_id():
+   **def get_available_id():**
 
 This functions returns an avaliable userId. It pops from the queue, id_queue, to get the next avaliable userId.
 
 2. @app.route('/clear_old_id', methods=["POST"])
-    def clear_old_id():
+    **def clear_old_id():**
 
 This function deletes a given user's information from the dataframe, df. It indexes this user's information based on the userId. The userId that was just deleted from the table is then added back to id_queue as an avaliable userId. 
 
 3. @app.route('/')
-    def print_all():
+    **def print_all():**
 
 This function will return the all the contents that exist in the dataframe upon being called. 
 
 4. @app.route('/get_direction', methods=["GET"])
-    def get_direction():
+    **def get_direction():**
 
 A given ink plate will request the information should be dipslayed on it from this function. All the userIds and directions that are associated with the given display will be collected. This information will then be turned into a JSON and sent to the given display.
 
 5. @app.route('/update_direction', methods=["POST"])
-    def update_direction():
+    **def update_direction():**
 
 This function updates the direction and the display for a given userId. If the userId is not yet in the dataframe, the userId, direction, and display are created as a new column and appended to the dataframe.
+
+# How to Run
+
+1. Instal flask with: pip install flask
+2. Instal panadas with: pip install pandas
+3. Enter your virtual enironment with:
+    a. virtualenv env
+    b. source env/bin/activate
+4. Run the server with: python smart-display-api.py 
