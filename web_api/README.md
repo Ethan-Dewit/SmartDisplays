@@ -77,3 +77,12 @@ A given ink plate will request the information should be dipslayed on it from th
     **def update_direction():**
 
 This function updates the direction and the display for a given userId. If the userId is not yet in the dataframe, the userId, direction, and display are created as a new column and appended to the dataframe.
+
+# How to Run
+
+1. Install flask with: pip install flask
+2. Install panadas with: pip install pandas
+3. Enter your virtual enironment with:
+    a. virtualenv env
+    b. source env/bin/activate
+4. Run the server with: python smart-display-api.py 
