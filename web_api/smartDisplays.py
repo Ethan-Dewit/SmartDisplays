@@ -1,17 +1,29 @@
 from flask import Flask, request, render_template
 import json
 import pandas as pd
+pd.options.mode.chained_assignment = None  # default='warn'
 
 id_queue = []
 df = pd.DataFrame({'UID':  pd.Series(dtype='str'),
                    'DIRECT': pd.Series(dtype='str'),
+                   'ORDER': pd.Series(dtype='str'),
                    'DISP':  pd.Series(dtype='str')})
 
 app = Flask(__name__)
 
 @app.route('/get_available_id')
 def get_available_id():
-    return id_queue.pop(0)
+    global df
+
+    uid = id_queue.pop(0)
+    
+    temp = pd.DataFrame({'UID':[uid], 'ORDER':['0'], 'DIRECT':[None], 'DISP':[None]})
+    df = pd.concat([df, temp], ignore_index = True, axis = 0)
+
+    temp = pd.DataFrame({'UID':[uid], 'ORDER':['1'], 'DIRECT':[None], 'DISP':[None]})
+    df = pd.concat([df, temp], ignore_index = True, axis = 0)
+
+    return uid
 
 
 @app.route('/clear_old_id', methods=["POST"])
@@ -36,6 +48,7 @@ def get_direction():
     display = request.args['DISPLAY']
     display_df = df.loc[df['DISP'] == display]
     display_df.drop('DISP', axis=1, inplace=True)
+    display_df.drop('ORDER', axis=1, inplace=True)
     
     return display_df.to_json(orient = 'records')
 
@@ -43,15 +56,22 @@ def get_direction():
 def update_direction():
     global df
 
-    uid = request.args['UID']
-    display = request.args['DISPLAY']
-    direction = request.args['DIRECT']
+    uid_0 = request.args['UID_0']
+    order_0 = request.args['ORDER_0']
+    display_0 = request.args['DISPLAY_0']
+    direction_0 = request.args['DIRECT_0']
+    uid_1 = request.args['UID_1']
+    order_1 = request.args['ORDER_1']
+    display_1 = request.args['DISPLAY_1']
+    direction_1 = request.args['DIRECT_1']
 
-    if uid in df['UID'].values:
-        df.loc[df.UID == uid, ['DIRECT', 'DISP']] = direction, display
-    else:
-        temp = pd.DataFrame({'UID':[uid], 'DIRECT':[direction], 'DISP':[display]})
-        df = pd.concat([df, temp], ignore_index = True, axis = 0)
+    if (not uid_0 in df['UID'].values) and (not order_0 in df['ORDER']):
+        return 'Could not find UID'
+    if (not uid_1 in df['UID'].values) and (not order_1 in df['ORDER']):
+        return 'Could not find UID'
+
+    df.loc[(df.UID == uid_0) & (df.ORDER == order_0), ['DIRECT', 'DISP']] = direction_0, display_0
+    df.loc[(df.UID == uid_1) & (df.ORDER == order_1), ['DIRECT', 'DISP']] = direction_1, display_1
 
     return 'Direction Updated Successfully'
 
@@ -102,8 +122,3 @@ if __name__ == '__main__':
     generate_ID()
     #add_rows()
     app.run(debug=True, port=5000)
-
-"""
-    receive and interpret JSON in update_direction
-    recieve UID and remove column in clear_old_id
-"""
