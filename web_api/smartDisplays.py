@@ -11,6 +11,7 @@ df = pd.DataFrame({'UID':  pd.Series(dtype='str'),
 
 app = Flask(__name__)
 
+#returns a new available id
 @app.route('/get_available_id')
 def get_available_id():
     global df
@@ -25,7 +26,8 @@ def get_available_id():
 
     return uid
 
-
+#clears an ID in use from the DF table
+#param: String FREED_ID
 @app.route('/clear_old_id', methods=["POST"])
 def clear_old_id():
     global df
@@ -36,11 +38,13 @@ def clear_old_id():
     id_queue.append(freed_id)
     
     return "ID Freed Successfully"
-
+#base route, shows all ID's currently in DF
 @app.route('/')
 def print_all():
     return render_template('df_display.html', tables=[df.to_html(classes='data')], titles=df.columns.values)
 
+#Called by display, returns all UID/Direction combos to specified display
+#PARAM: String DISPLAY
 @app.route('/get_direction', methods=["GET"])
 def get_direction():
     global df
@@ -52,6 +56,10 @@ def get_direction():
     
     return display_df.to_json(orient = 'records')
 
+#Adds/changes direction associated wiht a certain UID
+#param: String UID_0, ORDER_0, DISPLAY_0, DIRECT_0, UID_1, ORDER_1, DISPLAY_1, DIRECT_1
+#ORDER_0 should always be 0, ORDER_1 should always be 1
+#UID_0 and UID_1 should always match
 @app.route('/update_direction', methods=["POST"])
 def update_direction():
     global df
@@ -75,6 +83,7 @@ def update_direction():
 
     return 'Direction Updated Successfully'
 
+#helper function used to generate UIDs
 def get_string(x):
     if x == 0:
         return 'C.B'
@@ -93,6 +102,7 @@ def get_string(x):
     elif x == 7:
         return 'D.W'
 
+#function used to generate UIDs
 def generate_ID():
     string_range = 8
     for i in range(string_range):
@@ -118,7 +128,8 @@ def add_rows():
     df = pd.concat([df, df3], ignore_index = True, axis = 0)
     df = pd.concat([df, df4], ignore_index = True, axis = 0)
 
+#Need to set host="0.0.0.0" to run on server
 if __name__ == '__main__':
     generate_ID()
     #add_rows()
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, z)
