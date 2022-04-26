@@ -60,6 +60,8 @@ This functions returns an avaliable userId. It pops from the queue, id_queue, to
 
 2. @app.route('/clear_old_id', methods=["POST"])
     **def clear_old_id():**
+    
+param: String FREED_ID
 
 This function deletes a given user's information from the dataframe, df. It indexes this user's information based on the userId. The userId that was just deleted from the table is then added back to id_queue as an avaliable userId. 
 
@@ -70,19 +72,23 @@ This function will return the all the contents that exist in the dataframe upon 
 
 4. @app.route('/get_direction', methods=["GET"])
     **def get_direction():**
+PARAM: String DISPLAY
 
 A given ink plate will request the information should be dipslayed on it from this function. All the userIds and directions that are associated with the given display will be collected. This information will then be turned into a JSON and sent to the given display.
 
 5. @app.route('/update_direction', methods=["POST"])
     **def update_direction():**
+param: String UID_0, ORDER_0, DISPLAY_0, DIRECT_0, UID_1, ORDER_1, DISPLAY_1, DIRECT_1
+ORDER_0 should always be 0, ORDER_1 should always be 1
+UID_0 and UID_1 should always match
 
 This function updates the direction and the display for a given userId. If the userId is not yet in the dataframe, the userId, direction, and display are created as a new column and appended to the dataframe.
 
 # How to Run
 
-1. Install flask with: pip install flask
-2. Install panadas with: pip install pandas
-3. Enter your virtual enironment with:
-    a. virtualenv env
-    b. source env/bin/activate
-4. Run the server with: python smart-display-api.py 
+1. make sure that Python 3 is installed
+2. Install dependencies:
+    a. pip install Flask
+    b. pip install pandas
+3. In smartDisplays.py add host="0.0.0.0" to app.run
+4. run python3 smartDisplays.py on server
