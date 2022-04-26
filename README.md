@@ -87,8 +87,8 @@ This function updates the direction and the display for a given userId. If the u
 # How to Run
 
 1. make sure that Python 3 is installed
-2. Install dependencies: \
-    a. pip install Flask \ 
-    b. pip install pandas \ 
+2. Install dependencies:  
+    a. pip install Flask  
+    b. pip install pandas  
 3. In smartDisplays.py add host="0.0.0.0" to app.run
 4. run python3 smartDisplays.py on server
